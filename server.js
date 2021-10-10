@@ -25,17 +25,17 @@ const db = mysql.createConnection(
   console.log(`Connected to the employee_db database.`)
 );
 
-db.query('SELECT * FROM department', function (err, results) {
-  console.log(results);
-});
+// db.query('SELECT * FROM department', function (err, results) {
+//   console.log(results);
+// });
 
-db.query('SELECT * FROM roles', function (err, results) {
-  console.log(results);
-});
+// db.query('SELECT * FROM roles', function (err, results) {
+//   console.log(results);
+// });
 
-db.query('SELECT * FROM employee', function (err, results) {
-  console.log(results);
-});
+// db.query('SELECT * FROM employee', function (err, results) {
+//   console.log(results);
+// });
 
 // needs routes?
 
@@ -49,7 +49,7 @@ const questionsMain = {
 };
 
 // prompt leads into switchcase
-
+function hubQuestions(){
 inquirer.prompt(questionsMain)
   .then(answer => {
     switch (answer.main) {
@@ -74,22 +74,63 @@ inquirer.prompt(questionsMain)
       case "Update an employee role":
         updateRole()
         break;
+      // quit option
       default:
         break;
     }
   });
+}
 
-function viewDept() {};
+function viewDept() {
+  db.query('SELECT * FROM department', function (err, results) {
+    console.log(results);
+  });
+  hubQuestions();
+};
 
-function viewRoles() {};
+function viewRoles() {
+  db.query('SELECT * FROM roles', function (err, results) {
+    console.log(results);
+  });
+  hubQuestions();
+};
 
-function viewEmployees() {};
+function viewEmployees() {
+  db.query('SELECT * FROM employee', function (err, results) {
+    console.log(results);
+  });
+  hubQuestions();
+};
 
-function addDept() {};
+// function addDept() {
+//   inquirer.prompt([
+//     {
+//       type: 'input',
+//       message: 'What is the new departments ID number?',
+//       name: 'newdepID'
+//     },
+//     {
+//       type: 'input',
+//       messsage: 'What is the name of the new department?',
+//       name: 'deptnameadd'
+//     },
+//   ])
+//   .then(answer => {
 
-function addRole() {};
+//   })
+// };
 
-function addEmployee() {};
+// function addRole() {
+//   inquirer.prompt([
+//     {
 
-function updateRole() {};
+//     }
+//   ])
+// };
 
+// function addEmployee() {};
+
+// function updateRole() {};
+
+
+hubQuestions();
