@@ -1,16 +1,17 @@
-const express = require('express');
+// const express = require('express');
 // Import and require mysql2
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
+// const { Server } = require('http');
 
 require('dotenv').config()
 
-const PORT = process.env.PORT || 3001;
-const app = express();
+// const PORT = process.env.PORT || 3001;
+// const app = express();
 
 // Express middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
 
 // Connect to database
 const db = mysql.createConnection(
@@ -20,22 +21,10 @@ const db = mysql.createConnection(
     user: process.env.DB_USER,
     // MySQL password
     password: process.env.DB_PASS,
-    database: 'employee_db'
+    database: process.env.DB_NAME
   },
   console.log(`Connected to the employee_db database.`)
 );
-
-// db.query('SELECT * FROM department', function (err, results) {
-//   console.log(results);
-// });
-
-// db.query('SELECT * FROM roles', function (err, results) {
-//   console.log(results);
-// });
-
-// db.query('SELECT * FROM employee', function (err, results) {
-//   console.log(results);
-// });
 
 // needs routes?
 
@@ -45,7 +34,7 @@ const questionsMain = {
   type: 'list',
   messsage: 'What would you like to do?',
   name: 'main',
-  choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role"]
+  choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role", "Quit"]
 };
 
 // prompt leads into switchcase
@@ -74,7 +63,10 @@ inquirer.prompt(questionsMain)
       case "Update an employee role":
         updateRole()
         break;
-      // quit option
+      // quit option?
+      case "Quit":
+        quit()
+        break;
       default:
         break;
     }
@@ -83,54 +75,87 @@ inquirer.prompt(questionsMain)
 
 function viewDept() {
   db.query('SELECT * FROM department', function (err, results) {
-    console.log(results);
+    console.table(results);
+    hubQuestions();
   });
-  hubQuestions();
+  
 };
 
 function viewRoles() {
   db.query('SELECT * FROM roles', function (err, results) {
-    console.log(results);
-  });
-  hubQuestions();
+    console.table(results);
+    hubQuestions();
+  })
+  
 };
 
 function viewEmployees() {
   db.query('SELECT * FROM employee', function (err, results) {
-    console.log(results);
+    console.table(results);
+    hubQuestions();
   });
-  hubQuestions();
 };
 
-// function addDept() {
-//   inquirer.prompt([
-//     {
-//       type: 'input',
-//       message: 'What is the new departments ID number?',
-//       name: 'newdepID'
-//     },
-//     {
-//       type: 'input',
-//       messsage: 'What is the name of the new department?',
-//       name: 'deptnameadd'
-//     },
-//   ])
-//   .then(answer => {
+function addDept() {
+  inquirer.prompt([
+    {
+      type: 'input',
+      message: 'What is the new departments ID number?',
+      name: 'newdepID'
+    },
+    {
+      type: 'input',
+      messsage: 'What is the name of the new department?',
+      name: 'deptnameadd'
+    },
+  ])
+  .then(answer => {
 
-//   })
-// };
+  })
+};
 
-// function addRole() {
-//   inquirer.prompt([
-//     {
-
-//     }
-//   ])
-// };
+function addRole() {
+  inquirer.prompt([
+    {
+      type: 'input',
+      messsage: 'What is the title of the new job role?',
+      name: 'roleTitle'
+    },
+    {
+      type: 'input',
+      messsage: 'What is the salary of the new job role?',
+      name: 'roleSalary'
+    },
+    {
+      type: 'list',
+      messsage: 'What department does this role belong to?',
+      name: 'roleDept',
+      choices: ["Entertainers", "Killer Clowns"]
+    }
+  ])
+  .then
+};
 
 // function addEmployee() {};
 
 // function updateRole() {};
+
+
+
+function quit() {
+  // kinda janky
+  // const serverClose = app.listen(PORT);
+  // serverClose.close();
+  process.exit();
+}
+
+// app.use((req, res) => {
+//   res.status(404).end();
+// });
+
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
 
 
 hubQuestions();
