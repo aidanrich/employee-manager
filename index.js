@@ -127,7 +127,6 @@ function addRole() {
       if (answer.department_id === "Entertainers") {
         answer.department_id = '1'
       } else answer.department_id = '2'
-      //  [answer.title, newSalary, answer.department_id],
       db.query(`INSERT INTO roles SET ?`, answer, function (err, results) {
         if (err) throw err;
         viewRoles()
@@ -163,8 +162,7 @@ function addEmployee() {
       } else if (answer.role_id === "Scary Clown") {
         answer.role_id = '3'
       } else answer.role_id = '4'
-        
-      //  [answer.title, newSalary, answer.department_id],
+    
       db.query(`INSERT INTO employee SET ?`, answer, function (err, results) {
         if (err) throw err;
         viewEmployees()
@@ -196,7 +194,6 @@ function updateRole() {
       answer.role_id = '3'
     } else answer.role_id = '4'
       
-    //  [answer.title, newSalary, answer.department_id],
     db.query("UPDATE employee SET role_id = ? WHERE id = ?", [answer.role_id, answer.id], function (err, results) {
       if (err) throw err;
       viewEmployees()
@@ -208,19 +205,8 @@ function updateRole() {
 
 
 function quit() {
-  // kinda janky
-  // const serverClose = app.listen(PORT);
-  // serverClose.close();
+  console.log("See ya later alligator")
   process.exit();
 }
-
-// app.use((req, res) => {
-//   res.status(404).end();
-// });
-
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
-
 
 hubQuestions();
