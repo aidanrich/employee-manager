@@ -20,7 +20,7 @@
 ## Usage
 - In the terminal instance use the 'node index.js' command. You will then be given prompts to answer. Simply select quit when you are finished.
 
-- Find a video of how it works here:  
+- Find a video of how it works here:  https://youtu.be/g6_2fEbo7Lo
 - github repo: https://github.com/aidanrich/employee-manager
    
 ## Credits
