@@ -173,7 +173,37 @@ function addEmployee() {
     })
 };
 
-function updateRole() { };
+function updateRole() {
+  inquirer.prompt([
+    {
+      type: 'input',
+      message: 'What is the id number of the clown we want to promote? Please make sure you have the right number!',
+      name: 'id',
+    },
+    {
+      type: 'list',
+      message: 'What role are we assigning this clown?',
+      name: 'role_id',
+      choices: ["Clown Chief", "Clown Novice", "Scary Clown", "Painted Goblin"]
+    }
+  ])
+  .then(answer => {
+    if (answer.role_id === "Clown Chief") {
+      answer.role_id = '1'
+    } else if (answer.role_id === "Clown Novice") {
+      answer.role_id = '2'
+    } else if (answer.role_id === "Scary Clown") {
+      answer.role_id = '3'
+    } else answer.role_id = '4'
+      
+    //  [answer.title, newSalary, answer.department_id],
+    db.query("UPDATE employee SET role_id = ? WHERE id = ?", [answer.role_id, answer.id], function (err, results) {
+      if (err) throw err;
+      viewEmployees()
+
+    })
+  })
+ };
 
 
 
